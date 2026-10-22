@@ -1,0 +1,26 @@
+services:
+  pgsql:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: recrutamento
+      POSTGRES_USER: recrutamento
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgsql-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "recrutamento"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  pgsql-data:
+  redis-data:
